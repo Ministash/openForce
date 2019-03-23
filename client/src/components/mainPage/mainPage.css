@@ -1,0 +1,22 @@
+.button{
+    width: 100px;
+    height: 100px;
+    background: rgb(33, 105, 153);
+}
+
+
+.button-wrapper{
+    width: 500px;
+    border: 2px solid black;
+    min-height: 200px;
+}
+
+
+.send-it{
+    background: red;
+}
+
+
+.button:active{
+    background: 1px solid black;
+}

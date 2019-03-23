@@ -1,11 +1,14 @@
 import axios from "axios";
 
 export default {
-  getQuotes: function (id) {
+  getServerQuotes: function (id) {
     return axios.get("/api/quotes/" + id);
   },
-  pushRating: function (id){
+  pushServerRating: function (id){
     return axios.post("/api/rating/" + id);
   },
+  getApiQuotes: function(id){
+    return axios.get("http://ron-swanson-quotes.herokuapp.com/v2/quotes");
+  }
 
 };
