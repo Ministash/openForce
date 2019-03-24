@@ -5,6 +5,7 @@ const quotes = require("./quotes");
 //So "/quotes" is loading drinks the variable. If you change the first part ("/quotes") you need to 
 //change the other places that the route is being used.
 router.use("/quotes", quotes);
+console.log("for some reason you can still see this");
 
 
 module.exports = router;

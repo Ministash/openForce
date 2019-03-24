@@ -5,7 +5,7 @@
 }
 
 
-.button-wrapper{
+.quote-wrapper{
     width: 500px;
     border: 2px solid black;
     min-height: 200px;
@@ -14,9 +14,4 @@
 
 .send-it{
     background: red;
-}
-
-
-.button:active{
-    background: 1px solid black;
 }
