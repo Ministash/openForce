@@ -16,25 +16,33 @@ class Buttons extends React.Component {
     }
 
 
-    doesItExist = (newAnswer) =>{
-        this.setState({placedAnswer: newAnswer});
+    doesItExist = (newAnswer) => {
 
         API.pushServerInfo(this.state.text, newAnswer)
-            .then = () => {
-                this.whatsTheAverage();
-            }
+            .then(res => {
+
+                this.setState({ placedAnswer: newAnswer }, () => {
+                    this.whatsTheAverage();
+                });
+
+            }).catch(err => console.log(err));
     }
 
-    whatsTheAverage = () =>{
+    whatsTheAverage = () => {
+        console.log(this.state.placedAnswer + "Hello");
         API.getTheAverage(this.state.text, this.state.placedAnswer)
-        .then(res => {
-            console.log(res);
-            // if(res.data.obj.itIsFalse === false){
-            //     this.setState({averageAn: "Not Yet Rated"});
-            // }else{
-
-            // }
-        }).catch(err => console.log(err));
+            .then(res => {
+                console.log(res);
+                if (res.data.itIsFalse === true) {
+                    if (this.state.placedAnswer === 0) {
+                        this.setState({ averageAn: "Not Yet Rated"});
+                    }else{
+                        this.setState({ averageAn: this.state.placedAnswer });
+                    }
+                } else {
+                    this.setState({ averageAn: res.data.returnedAverageAnswer });
+                }
+            }).catch(err => console.log(err));
     }
 
 
@@ -50,7 +58,6 @@ class Buttons extends React.Component {
 
     render() {
 
-
         return (
             <div>
                 <div>
@@ -65,7 +72,11 @@ class Buttons extends React.Component {
                     </div>
 
                     <div>
-                        Average Answer: {this.state.averageAn}
+                        {this.state.averageAn === false ? <div>Average Answer: Loading...</div>
+                            :
+                            <div>Average Answer: {this.state.averageAn}</div>
+                        }
+
                     </div>
                 </div>
             </div>

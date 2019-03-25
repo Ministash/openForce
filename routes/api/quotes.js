@@ -19,7 +19,8 @@ router.route("/exists")
                     createNewQuote();
                 } else {
                     console.log("Somethign in there, push server info route");
-                    console.log(data);
+                    // console.log(data);
+                    res.send({ thisNeedsToChange: "Hello"});
                 }
 
                 // res.send({ quoteInfo: data });
@@ -29,14 +30,16 @@ router.route("/exists")
             db.Quotes.create({
                 text: newTextInfo[0],
                 average: 0,
-            })
+            });
+            res.send({ thisNeedsToChange: "Hello"});
         }
     });
 
 
-router.route("/average/:id")
-    .get(function (req, res) {
-
+router.route("/average")
+    .post(function (req, res) {
+        let newAverage = req.body.newAverage;
+        // checking if the item exists or not
         db.Answers.findOne({
             where: { belongText: req.body.text }
         }).then(function (data) {
@@ -44,19 +47,49 @@ router.route("/average/:id")
             if (data === null) {
                 console.log("theres nothing there");
                 setANewAverage();
+                //creating the new average item in our database
             } else {
-                res.send({ currentAverage: data });
+                findTheAverage();
             }
         })
 
-        function setANewAverage() {
-            console.log("FUCK ME SIDE WAYS");
-            // db.Answers.create({
-            //     answers: req.body.newAverage,
-            //     belongText: req.body.text
-            // });
 
-            // res.send("hello");
+        function setANewAverage() {
+            // console.log(req.body.text[0]);
+
+            if(newAverage === 0){
+                console.log("Waiting for user to tell us");
+                res.send({itIsFalse: true});
+            }else{
+                db.Answers.create({
+                    answers: newAverage,
+                    belongText: req.body.text[0],
+                });
+                
+                res.send({itIsFalse: true});
+            }
+        }
+
+
+
+         //The important stuff. Adding a new average if it needs one, then telling the user the average
+        function findTheAverage(){
+            let newAverageNum = parsInt(newAverage);
+            let currentQuote = req.body.text;
+
+            // db.Answers.update({
+            //     where: {answers: currentQuote}
+            // })
+
+            db.Answers.findOne({
+                where: {belongText: currentQuote}
+            }).then(function (data){
+                // console.log(data);
+            });
+
+            res.send({ thisNeedsToChange: "Hello"});
+
+
         }
     });
 
